@@ -1,0 +1,224 @@
+package service;
+
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.xml.rpc.ServiceException;
+
+import org.apache.axis.client.Service;
+
+import demo.ClientAccount;
+import demo.WebBankService;
+import demo.WebBankServiceServiceLocator;
+import demo.WebBankServiceSoapBindingStub;
+import interfaces.*;
+
+public class GustaveTutorService {
+	
+	private ITutoringServer server = null;
+	private OutsideStudent student; 
+	private WebBankService webBank;
+	
+	public GustaveTutorService() throws ServiceException,RemoteException{
+		try {
+			this.server = (ITutoringServer) Naming.lookup("TutoringPlatform");
+			this.student = new OutsideStudent(null);
+			this.webBank= new WebBankServiceServiceLocator().getWebBankService();
+			
+			 
+            ((WebBankServiceSoapBindingStub) webBank).setMaintainSession(true);
+            
+          
+            
+		} catch (MalformedURLException | RemoteException | NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
+	public void setStudentName(String name) throws RemoteException {
+		student.setName(name);
+		webBank.addClient(new ClientAccount("EUR",100,student.getName()));
+	}
+	
+	public String getStudentName() throws RemoteException {
+		return student.getName();
+	}
+	
+	public String[] getAllSubjects() {
+		try {
+			List<String> subjects = server.getAllSubjects();
+			String[] array_subjects = new String[subjects.size()];
+			
+			int i = 0;
+			for (String sub : subjects) {
+				array_subjects[i] = sub;
+				i++;
+			}
+			return array_subjects;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public AppointmentsAvailable[] searchAvailabilityForSpecificSubject(String subject) throws RemoteException {
+		Map<ITeacher, Set<IAppointment>> appointments = server.searchAvailabilityForSpecificSubject(subject);
+		AppointmentsAvailable[] appointmentsArray = new AppointmentsAvailable[appointments.size()];
+		
+		int i = 0;
+		for (ITeacher teacher : appointments.keySet()) {
+			
+			String[] teacher_appointments = new String[appointments.get(teacher).size()];
+			int j = 0;
+			for (IAppointment appointment : appointments.get(teacher)) {
+				teacher_appointments[j] = appointment.to_string();
+				j++;
+			}
+			appointmentsArray[i] = new AppointmentsAvailable(teacher.getName(), teacher_appointments);
+			i++;
+		}
+	
+		return appointmentsArray;
+	}
+	
+	public String[] getAppointmentsForSubjectAndTeacher(String teacher, String subject) {
+		try {
+			List<IAppointment> appointments = server.getAppointmentsForSubjectAndTeacher(teacher, subject);
+			String[] array_apps = new String[appointments.size()];
+			
+			int j = 0;
+			for (IAppointment appointment : appointments) {
+				array_apps[j] = appointment.to_string();
+				j++;
+			}
+			return array_apps;
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public void addStudentToWaitingList(String teacher, String subject) throws RemoteException {
+		ITeacher teacher_instance = server.getTeacherByName(teacher);
+		student.addStudentToWaitingList(subject, teacher_instance);
+		teacher_instance.addStudentToWaitingList(student, subject);
+	}
+	
+	public void removeStudentToWaitingList(String teacher, String subject) throws RemoteException {
+		ITeacher teacher_instance = server.getTeacherByName(teacher);
+		student.removeStudentToWaitingList(subject, teacher_instance);
+		teacher_instance.removeStudentFromWaitingList(student, subject);
+	}
+	
+	public String[] getStudentAppointments() {
+	
+		try {
+			Set<IAppointment> studentAppointments = student.getStudentAppointments();
+			String[] student_app = new String[studentAppointments.size()];
+			int i = 0;
+			
+			for (IAppointment app : studentAppointments) {
+				student_app[i] = app.to_string();
+				i++;
+			}
+			return student_app;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String[] getAppoimentsNotified() {
+		System.out.print("GustaveTutorService.getAppoimentsNotified(), is student null: ");
+		if(student == null)
+			System.out.println("\t" + student);
+		else System.out.println("estou ca");
+		try {
+			Set<IAppointment> studentAppointments;
+			System.out.println("Student name: " + student.getName());
+			studentAppointments = student.getAppoimentsNotified();
+			try {
+			
+				String[] student_app = new String[studentAppointments.size()];
+				int i = 0;
+				
+				for (IAppointment app : studentAppointments) {
+					student_app[i] = app.to_string();
+					i++;
+				}
+				
+				return student_app;
+			} catch (NullPointerException e) {
+				System.out.println("In GustaveServiceTutor.getAppoimentsNotified(), Student is null");
+			}
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public void bookAppointment(String teacher, String appointment) {
+		
+		try {
+			
+			IAppointment app = server.getTeacherByName(teacher).getAppointment(appointment);
+		
+			double rate = server.getTeacherByName(teacher).getRate(app.getSubject());
+			
+			if(webBank.makePayment(student.getName(), rate)) {
+				app.bookAppointment(student);
+				System.out.println("Booked number of appointements: " + student.getStudentAppointments().size());
+			}else {
+				System.out.println("Insufficient Funds");
+			}
+			
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public StudentWaitingList[] getStudentWaitingList() {
+		System.out.print("GustaveTutorService.getStudentWaitingList(), is student false: ");
+		System.out.println("\t" + student == null);
+		try {
+			Map<String, ArrayList<ITeacher>> lists = student.getStudentWaitingList();
+			StudentWaitingList[] waintingLists = new StudentWaitingList[lists.size()];
+			
+			int i = 0;
+			for (String key : lists.keySet()) {
+				String[] teachers = new String[lists.get(key).size()];
+				int j = 0;
+				for (ITeacher t : lists.get(key)) {
+					teachers[j] = t.getName();
+				}
+				waintingLists[i] = new StudentWaitingList(key, teachers);
+			}
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
+	
+	
+
+	
+	
+}

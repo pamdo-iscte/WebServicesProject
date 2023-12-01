@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from WebBankServiceService WSDL service -->
+
+  <service name="WebBankService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://demo"/>
+      <parameter name="wsdlServiceElement" value="WebBankServiceService"/>
+      <parameter name="schemaQualified" value="http://demo"/>
+      <parameter name="wsdlServicePort" value="WebBankService"/>
+      <parameter name="className" value="demo.WebBankService"/>
+      <parameter name="wsdlPortType" value="WebBankService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://demo" name="addClient" qname="operNS:addClient" soapAction="">
+        <parameter xmlns:pns="http://demo" xmlns:tns="http://demo" qname="pns:clientAccount" type="tns:ClientAccount"/>
+      </operation>
+      <operation xmlns:operNS="http://demo" xmlns:retNS="http://demo" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="makePayment" qname="operNS:makePayment" returnQName="retNS:makePaymentReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://demo" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientName" type="tns:string"/>
+        <parameter xmlns:pns="http://demo" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:cost" type="tns:double"/>
+      </operation>
+      <operation xmlns:operNS="http://demo" name="removeClient" qname="operNS:removeClient" soapAction="">
+        <parameter xmlns:pns="http://demo" xmlns:tns="http://demo" qname="pns:clientAccount" type="tns:ClientAccount"/>
+      </operation>
+      <operation xmlns:operNS="http://demo" xmlns:retNS="http://demo" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getClientsDB" qname="operNS:getClientsDB" returnQName="retNS:getClientsDBReturn" returnType="rtns:int" soapAction="">
+      </operation>
+      <parameter name="allowedMethods" value="removeClient makePayment addClient getClientsDB"/>
+
+      <typeMapping xmlns:ns="http://demo" qname="ns:ClientAccount" type="java:demo.ClientAccount" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+  </service>
+</deployment>

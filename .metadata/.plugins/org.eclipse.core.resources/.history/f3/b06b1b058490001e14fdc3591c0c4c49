@@ -1,0 +1,93 @@
+<ns1:deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java" xmlns:ns1="http://xml.apache.org/axis/wsdd/">
+ <ns1:globalConfiguration>
+  <ns1:parameter name="sendMultiRefs" value="true"/>
+  <ns1:parameter name="disablePrettyXML" value="true"/>
+  <ns1:parameter name="adminPassword" value="admin"/>
+  <ns1:parameter name="attachments.Directory" value="C:\Users\Diogo Cosme\eclipse-workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp1\wtpwebapps\TutoringPlatform\WEB-INF\attachments"/>
+  <ns1:parameter name="dotNetSoapEncFix" value="true"/>
+  <ns1:parameter name="enableNamespacePrefixOptimization" value="false"/>
+  <ns1:parameter name="sendXMLDeclaration" value="true"/>
+  <ns1:parameter name="sendXsiTypes" value="true"/>
+  <ns1:parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
+  <ns1:requestFlow>
+   <ns1:handler type="java:org.apache.axis.handlers.JWSHandler">
+    <ns1:parameter name="scope" value="session"/>
+   </ns1:handler>
+   <ns1:handler type="java:org.apache.axis.handlers.JWSHandler">
+    <ns1:parameter name="scope" value="request"/>
+    <ns1:parameter name="extension" value=".jwr"/>
+   </ns1:handler>
+  </ns1:requestFlow>
+ </ns1:globalConfiguration>
+ <ns1:handler name="URLMapper" type="java:org.apache.axis.handlers.http.URLMapper"/>
+ <ns1:handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>
+ <ns1:handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder"/>
+ <ns1:service name="AdminService" provider="java:MSG">
+  <ns1:parameter name="allowedMethods" value="AdminService"/>
+  <ns1:parameter name="enableRemoteAdmin" value="false"/>
+  <ns1:parameter name="className" value="org.apache.axis.utils.Admin"/>
+  <ns1:namespace>http://xml.apache.org/axis/wsdd/</ns1:namespace>
+ </ns1:service>
+ <ns1:service name="Version" provider="java:RPC">
+  <ns1:parameter name="allowedMethods" value="getVersion"/>
+  <ns1:parameter name="className" value="org.apache.axis.Version"/>
+ </ns1:service>
+ <ns1:service name="GustaveTutorService" provider="java:RPC" style="wrapped" use="literal">
+  <ns2:operation name="getAppoimentsNotified" qname="ns1:getAppoimentsNotified" returnQName="ns1:getAppoimentsNotifiedReturn" returnType="xsd:string" soapAction="" xmlns:ns1="http://service" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/"/>
+  <ns1:operation name="getStudentWaitingList" qname="ns2:getStudentWaitingList" returnQName="ns2:getStudentWaitingListReturn" returnType="ns2:StudentWaitingList" soapAction="" xmlns:ns2="http://service"/>
+  <ns1:operation name="getAllSubjects" qname="ns3:getAllSubjects" returnQName="ns3:getAllSubjectsReturn" returnType="xsd:string" soapAction="" xmlns:ns3="http://service" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="setStudentName" qname="ns4:setStudentName" soapAction="" xmlns:ns4="http://service">
+   <ns1:parameter qname="ns4:name" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
+  <ns1:operation name="getStudentName" qname="ns5:getStudentName" returnQName="ns5:getStudentNameReturn" returnType="xsd:string" soapAction="" xmlns:ns5="http://service" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="bookAppointment" qname="ns6:bookAppointment" soapAction="" xmlns:ns6="http://service">
+   <ns1:parameter qname="ns6:teacher" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns6:appointment" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
+  <ns1:operation name="removeStudentToWaitingList" qname="ns7:removeStudentToWaitingList" soapAction="" xmlns:ns7="http://service">
+   <ns1:parameter qname="ns7:teacher" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns7:subject" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
+  <ns1:operation name="getStudentAppointments" qname="ns8:getStudentAppointments" returnQName="ns8:getStudentAppointmentsReturn" returnType="xsd:string" soapAction="" xmlns:ns8="http://service" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="addStudentToWaitingList" qname="ns9:addStudentToWaitingList" soapAction="" xmlns:ns9="http://service">
+   <ns1:parameter qname="ns9:teacher" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns9:subject" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
+  <ns1:operation name="searchAvailabilityForSpecificSubject" qname="ns10:searchAvailabilityForSpecificSubject" returnQName="ns10:searchAvailabilityForSpecificSubjectReturn" returnType="ns10:AppointmentsAvailable" soapAction="" xmlns:ns10="http://service">
+   <ns1:parameter qname="ns10:subject" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
+  <ns1:operation name="getAppointmentsForSubjectAndTeacher" qname="ns11:getAppointmentsForSubjectAndTeacher" returnQName="ns11:getAppointmentsForSubjectAndTeacherReturn" returnType="xsd:string" soapAction="" xmlns:ns11="http://service" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns11:teacher" type="xsd:string"/>
+   <ns1:parameter qname="ns11:subject" type="xsd:string"/>
+  </ns1:operation>
+  <ns1:parameter name="allowedMethods" value="getAllSubjects getAppointmentsForSubjectAndTeacher getStudentWaitingList getStudentAppointments getStudentName setStudentName removeStudentToWaitingList getAppoimentsNotified addStudentToWaitingList searchAvailabilityForSpecificSubject bookAppointment"/>
+  <ns1:parameter name="typeMappingVersion" value="1.2"/>
+  <ns1:parameter name="wsdlPortType" value="GustaveTutorService"/>
+  <parameter name="scope" value="session"/>
+  <ns1:parameter name="className" value="service.GustaveTutorService"/>
+  <ns1:parameter name="wsdlServicePort" value="GustaveTutorService"/>
+  <ns1:parameter name="schemaQualified" value="http://service"/>
+  <ns1:parameter name="wsdlTargetNamespace" value="http://service"/>
+  <ns1:parameter name="wsdlServiceElement" value="GustaveTutorServiceService"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns12:StudentWaitingList" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:service.StudentWaitingList" xmlns:ns12="http://service"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns13:AppointmentsAvailable" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:service.AppointmentsAvailable" xmlns:ns13="http://service"/>
+  <ns1:arrayMapping innerType="xsd:string" languageSpecificType="java:java.lang.String[]" qname="ns14:ArrayOf_xsd_string" xmlns:ns14="http://service" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+ </ns1:service>
+ <ns1:transport name="http">
+  <ns1:requestFlow>
+   <ns1:handler type="URLMapper"/>
+   <ns1:handler type="java:org.apache.axis.handlers.http.HTTPAuthHandler"/>
+  </ns1:requestFlow>
+  <ns1:parameter name="qs:list" value="org.apache.axis.transport.http.QSListHandler"/>
+  <ns1:parameter name="qs:wsdl" value="org.apache.axis.transport.http.QSWSDLHandler"/>
+  <ns1:parameter name="qs.list" value="org.apache.axis.transport.http.QSListHandler"/>
+  <ns1:parameter name="qs.method" value="org.apache.axis.transport.http.QSMethodHandler"/>
+  <ns1:parameter name="qs:method" value="org.apache.axis.transport.http.QSMethodHandler"/>
+  <ns1:parameter name="qs.wsdl" value="org.apache.axis.transport.http.QSWSDLHandler"/>
+ </ns1:transport>
+ <ns1:transport name="local">
+  <ns1:responseFlow>
+   <ns1:handler type="LocalResponder"/>
+  </ns1:responseFlow>
+ </ns1:transport>
+</ns1:deployment>

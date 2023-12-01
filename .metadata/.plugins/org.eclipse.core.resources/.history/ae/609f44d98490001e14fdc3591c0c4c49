@@ -1,0 +1,50 @@
+package client;
+
+import java.rmi.RemoteException; 
+import java.util.Scanner;
+import javax.xml.rpc.ServiceException;
+
+import service.AppointmentsAvailable;
+import service.GustaveTutorService;
+import service.GustaveTutorServiceServiceLocator;
+import service.GustaveTutorServiceSoapBindingStub;
+
+
+
+
+public class StudentClient {
+	
+	public static void main(String[] args) throws ServiceException, RemoteException {
+		Scanner scanner = new Scanner(System.in);
+        while (true) {
+        	System.out.println("Enter the student name: \n");
+            String name = scanner.nextLine();
+            
+            GustaveTutorService service = new GustaveTutorServiceServiceLocator().getGustaveTutorService();
+            ((GustaveTutorServiceSoapBindingStub) service).setMaintainSession(true);
+            service.setStudentName(name,"USD",100);
+			AppointmentsAvailable[] apps = service.searchAvailabilityForSpecificSubject("math");
+			System.out.println("Student Name "+ service.getStudentName());
+			for (AppointmentsAvailable teacherAndApps : apps) {
+				System.out.println("Teacher " + teacherAndApps.getTeacher());
+				for (String app : teacherAndApps.getAppointments()) {
+					
+					service.bookAppointment(teacherAndApps.getTeacher(), app);
+					System.out.println("See student appointements "+service.getStudentAppointments());
+					System.out.println("Student "+ service.getStudentName());
+					for (String app1 : service.getStudentAppointments()) {
+						System.out.println("Student appointements " +app1);
+					}
+					
+				}
+			}
+			System.out.println("depois do for o student tem "+ service.getStudentAppointments().length);
+			
+			
+			
+			
+            
+        }
+	}
+
+}

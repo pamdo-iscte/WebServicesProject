@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from GustaveTutorServiceService WSDL service -->
+
+  <service name="GustaveTutorService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://service"/>
+      <parameter name="wsdlServiceElement" value="GustaveTutorServiceService"/>
+      <parameter name="schemaQualified" value="http://service"/>
+      <parameter name="wsdlServicePort" value="GustaveTutorService"/>
+      <parameter name="className" value="service.GustaveTutorService"/>
+      <parameter name="wsdlPortType" value="GustaveTutorService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://service" xmlns:retNS="http://service" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getStudentName" qname="operNS:getStudentName" returnQName="retNS:getStudentNameReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://service" xmlns:retNS="http://service" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getAllSubjects" qname="operNS:getAllSubjects" returnQName="retNS:getAllSubjectsReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://service" xmlns:retNS="http://service" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getStudentAppointments" qname="operNS:getStudentAppointments" returnQName="retNS:getStudentAppointmentsReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://service" xmlns:retNS="http://service" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getAppoimentsNotified" qname="operNS:getAppoimentsNotified" returnQName="retNS:getAppoimentsNotifiedReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://service" name="bookAppointment" qname="operNS:bookAppointment" soapAction="">
+        <parameter xmlns:pns="http://service" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:teacher" type="tns:string"/>
+        <parameter xmlns:pns="http://service" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:appointment" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://service" xmlns:retNS="http://service" xmlns:rtns="http://service" name="getStudentWaitingList" qname="operNS:getStudentWaitingList" returnQName="retNS:getStudentWaitingListReturn" returnType="rtns:StudentWaitingList" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://service" name="setStudentName" qname="operNS:setStudentName" soapAction="">
+        <parameter xmlns:pns="http://service" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:name" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://service" xmlns:retNS="http://service" xmlns:rtns="http://service" name="searchAvailabilityForSpecificSubject" qname="operNS:searchAvailabilityForSpecificSubject" returnQName="retNS:searchAvailabilityForSpecificSubjectReturn" returnType="rtns:AppointmentsAvailable" soapAction="">
+        <parameter xmlns:pns="http://service" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:subject" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://service" xmlns:retNS="http://service" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getAppointmentsForSubjectAndTeacher" qname="operNS:getAppointmentsForSubjectAndTeacher" returnQName="retNS:getAppointmentsForSubjectAndTeacherReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://service" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:teacher" type="tns:string"/>
+        <parameter xmlns:pns="http://service" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:subject" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://service" name="addStudentToWaitingList" qname="operNS:addStudentToWaitingList" soapAction="">
+        <parameter xmlns:pns="http://service" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:teacher" type="tns:string"/>
+        <parameter xmlns:pns="http://service" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:subject" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://service" name="removeStudentToWaitingList" qname="operNS:removeStudentToWaitingList" soapAction="">
+        <parameter xmlns:pns="http://service" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:teacher" type="tns:string"/>
+        <parameter xmlns:pns="http://service" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:subject" type="tns:string"/>
+      </operation>
+      <parameter name="allowedMethods" value="getAllSubjects getAppointmentsForSubjectAndTeacher getStudentWaitingList getStudentAppointments getStudentName setStudentName removeStudentToWaitingList getAppoimentsNotified addStudentToWaitingList searchAvailabilityForSpecificSubject bookAppointment"/>
+
+      <typeMapping xmlns:ns="http://service" qname="ns:StudentWaitingList" type="java:service.StudentWaitingList" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <arrayMapping xmlns:ns="http://service" xmlns:cmp-ns="http://www.w3.org/2001/XMLSchema" qname="ns:ArrayOf_xsd_string" type="java:java.lang.String[]" innerType="cmp-ns:string" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://service" qname="ns:AppointmentsAvailable" type="java:service.AppointmentsAvailable" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+  </service>
+</deployment>

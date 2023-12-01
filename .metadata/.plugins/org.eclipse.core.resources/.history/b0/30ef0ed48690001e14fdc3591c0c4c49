@@ -1,0 +1,108 @@
+package demo;
+
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.rpc.ServiceException;
+
+import FxtopAPI.FxtopServicesLocator;
+import FxtopAPI.FxtopServicesPortType;
+
+public class WebBankService {
+	private List<ClientAccount> clientsDB;
+	private List<String> possibleCurrency;
+	private Conversion converter;
+	private String appoitementCurrency = "EUR";
+
+
+	
+	public WebBankService() throws ServiceException, RemoteException {
+	
+		this.clientsDB = new ArrayList<ClientAccount>();
+		this.converter= new Conversion();
+		this.possibleCurrency = converter.getCurrencyList();
+		
+	}
+
+	
+	public WebBankService(List<ClientAccount> clientsDB) throws ServiceException, RemoteException {
+
+		this.clientsDB = clientsDB;
+		this.converter= new Conversion();
+		this.possibleCurrency = converter.getCurrencyList();
+	}
+
+	
+	public void addClient(ClientAccount clientAccount) {
+		clientsDB.add(clientAccount);
+	}
+
+	public void removeClient(ClientAccount clientAccount) {
+		clientsDB.remove(clientAccount);
+	}
+
+
+	private ClientAccount findClient( String clientName) {
+		ClientAccount foundClient = null;
+		
+		
+		
+		for (ClientAccount client : clientsDB) {
+			
+			if (client.getName().equals(clientName)) {
+				foundClient = client;
+				break; 
+			}
+		}
+
+
+		if (foundClient == null){
+			// Handle case when client_id is not found
+			System.out.println("Client" + clientName + " not found");
+		}
+		return foundClient;
+	}
+
+
+	private double convertCurrency(double cost, String clientCurrency) throws RemoteException, ServiceException {
+
+		if(possibleCurrency.contains(clientCurrency)) {
+			return converter.convert(cost, appoitementCurrency,clientCurrency);	
+
+		}
+		else {
+			throw new IllegalArgumentException("CURRENCY IS NOT available");
+		}
+
+	}
+
+	
+	public boolean makePayment(String clientName, double cost) throws RemoteException, ServiceException {
+		ClientAccount foundClient = findClient(clientName);
+		double newCost = convertCurrency(cost,foundClient.getCurrency());
+		if(foundClient.removeFunds(newCost)) {	
+			System.out.println("Converted the "+cost+" EUR" +"to "+newCost+foundClient.getCurrency());
+			System.out.println("After removing money:"+foundClient.getFunds());
+			return true;
+		}
+		return false;
+
+	}
+	public int getClientsDB(){
+		return clientsDB.size();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://service" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://service" xmlns:intf="http://service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://service" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="getAppoimentsNotified">
+    <complexType/>
+   </element>
+   <element name="getAppoimentsNotifiedResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getAppoimentsNotifiedReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getStudentWaitingList">
+    <complexType/>
+   </element>
+   <element name="getStudentWaitingListResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getStudentWaitingListReturn" type="impl:StudentWaitingList"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="ArrayOf_xsd_string">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="StudentWaitingList">
+    <sequence>
+     <element name="subject" nillable="true" type="xsd:string"/>
+     <element name="teachers" nillable="true" type="impl:ArrayOf_xsd_string"/>
+    </sequence>
+   </complexType>
+   <element name="getAllSubjects">
+    <complexType/>
+   </element>
+   <element name="getAllSubjectsResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getAllSubjectsReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setStudentName">
+    <complexType>
+     <sequence>
+      <element name="name" type="xsd:string"/>
+      <element name="currency" type="xsd:string"/>
+      <element name="funds" type="xsd:double"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setStudentNameResponse">
+    <complexType/>
+   </element>
+   <element name="getStudentName">
+    <complexType/>
+   </element>
+   <element name="getStudentNameResponse">
+    <complexType>
+     <sequence>
+      <element name="getStudentNameReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="bookAppointment">
+    <complexType>
+     <sequence>
+      <element name="teacher" type="xsd:string"/>
+      <element name="appointment" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="bookAppointmentResponse">
+    <complexType/>
+   </element>
+   <element name="removeStudentToWaitingList">
+    <complexType>
+     <sequence>
+      <element name="teacher" type="xsd:string"/>
+      <element name="subject" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="removeStudentToWaitingListResponse">
+    <complexType/>
+   </element>
+   <element name="getStudentAppointments">
+    <complexType/>
+   </element>
+   <element name="getStudentAppointmentsResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getStudentAppointmentsReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="addStudentToWaitingList">
+    <complexType>
+     <sequence>
+      <element name="teacher" type="xsd:string"/>
+      <element name="subject" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="addStudentToWaitingListResponse">
+    <complexType/>
+   </element>
+   <element name="searchAvailabilityForSpecificSubject">
+    <complexType>
+     <sequence>
+      <element name="subject" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="searchAvailabilityForSpecificSubjectResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="searchAvailabilityForSpecificSubjectReturn" type="impl:AppointmentsAvailable"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="AppointmentsAvailable">
+    <sequence>
+     <element name="appointments" nillable="true" type="impl:ArrayOf_xsd_string"/>
+     <element name="teacher" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <element name="getAppointmentsForSubjectAndTeacher">
+    <complexType>
+     <sequence>
+      <element name="teacher" type="xsd:string"/>
+      <element name="subject" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getAppointmentsForSubjectAndTeacherResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getAppointmentsForSubjectAndTeacherReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="addStudentToWaitingListResponse">
+
+      <wsdl:part element="impl:addStudentToWaitingListResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="bookAppointmentResponse">
+
+      <wsdl:part element="impl:bookAppointmentResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setStudentNameResponse">
+
+      <wsdl:part element="impl:setStudentNameResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="addStudentToWaitingListRequest">
+
+      <wsdl:part element="impl:addStudentToWaitingList" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAppointmentsForSubjectAndTeacherRequest">
+
+      <wsdl:part element="impl:getAppointmentsForSubjectAndTeacher" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setStudentNameRequest">
+
+      <wsdl:part element="impl:setStudentName" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getStudentNameRequest">
+
+      <wsdl:part element="impl:getStudentName" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="bookAppointmentRequest">
+
+      <wsdl:part element="impl:bookAppointment" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeStudentToWaitingListRequest">
+
+      <wsdl:part element="impl:removeStudentToWaitingList" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getStudentAppointmentsRequest">
+
+      <wsdl:part element="impl:getStudentAppointments" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAppoimentsNotifiedResponse">
+
+      <wsdl:part element="impl:getAppoimentsNotifiedResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAppoimentsNotifiedRequest">
+
+      <wsdl:part element="impl:getAppoimentsNotified" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAllSubjectsResponse">
+
+      <wsdl:part element="impl:getAllSubjectsResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAllSubjectsRequest">
+
+      <wsdl:part element="impl:getAllSubjects" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getStudentNameResponse">
+
+      <wsdl:part element="impl:getStudentNameResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="searchAvailabilityForSpecificSubjectResponse">
+
+      <wsdl:part element="impl:searchAvailabilityForSpecificSubjectResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAppointmentsForSubjectAndTeacherResponse">
+
+      <wsdl:part element="impl:getAppointmentsForSubjectAndTeacherResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="searchAvailabilityForSpecificSubjectRequest">
+
+      <wsdl:part element="impl:searchAvailabilityForSpecificSubject" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getStudentWaitingListRequest">
+
+      <wsdl:part element="impl:getStudentWaitingList" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeStudentToWaitingListResponse">
+
+      <wsdl:part element="impl:removeStudentToWaitingListResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getStudentWaitingListResponse">
+
+      <wsdl:part element="impl:getStudentWaitingListResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getStudentAppointmentsResponse">
+
+      <wsdl:part element="impl:getStudentAppointmentsResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="GustaveTutorService">
+
+      <wsdl:operation name="getAppoimentsNotified">
+
+         <wsdl:input message="impl:getAppoimentsNotifiedRequest" name="getAppoimentsNotifiedRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getAppoimentsNotifiedResponse" name="getAppoimentsNotifiedResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStudentWaitingList">
+
+         <wsdl:input message="impl:getStudentWaitingListRequest" name="getStudentWaitingListRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getStudentWaitingListResponse" name="getStudentWaitingListResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAllSubjects">
+
+         <wsdl:input message="impl:getAllSubjectsRequest" name="getAllSubjectsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getAllSubjectsResponse" name="getAllSubjectsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setStudentName">
+
+         <wsdl:input message="impl:setStudentNameRequest" name="setStudentNameRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setStudentNameResponse" name="setStudentNameResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStudentName">
+
+         <wsdl:input message="impl:getStudentNameRequest" name="getStudentNameRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getStudentNameResponse" name="getStudentNameResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="bookAppointment">
+
+         <wsdl:input message="impl:bookAppointmentRequest" name="bookAppointmentRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:bookAppointmentResponse" name="bookAppointmentResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeStudentToWaitingList">
+
+         <wsdl:input message="impl:removeStudentToWaitingListRequest" name="removeStudentToWaitingListRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:removeStudentToWaitingListResponse" name="removeStudentToWaitingListResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStudentAppointments">
+
+         <wsdl:input message="impl:getStudentAppointmentsRequest" name="getStudentAppointmentsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getStudentAppointmentsResponse" name="getStudentAppointmentsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addStudentToWaitingList">
+
+         <wsdl:input message="impl:addStudentToWaitingListRequest" name="addStudentToWaitingListRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:addStudentToWaitingListResponse" name="addStudentToWaitingListResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="searchAvailabilityForSpecificSubject">
+
+         <wsdl:input message="impl:searchAvailabilityForSpecificSubjectRequest" name="searchAvailabilityForSpecificSubjectRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:searchAvailabilityForSpecificSubjectResponse" name="searchAvailabilityForSpecificSubjectResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAppointmentsForSubjectAndTeacher">
+
+         <wsdl:input message="impl:getAppointmentsForSubjectAndTeacherRequest" name="getAppointmentsForSubjectAndTeacherRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getAppointmentsForSubjectAndTeacherResponse" name="getAppointmentsForSubjectAndTeacherResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="GustaveTutorServiceSoapBinding" type="impl:GustaveTutorService">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getAppoimentsNotified">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAppoimentsNotifiedRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getAppoimentsNotifiedResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStudentWaitingList">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getStudentWaitingListRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getStudentWaitingListResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAllSubjects">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAllSubjectsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getAllSubjectsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setStudentName">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setStudentNameRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setStudentNameResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStudentName">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getStudentNameRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getStudentNameResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="bookAppointment">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="bookAppointmentRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="bookAppointmentResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeStudentToWaitingList">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeStudentToWaitingListRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="removeStudentToWaitingListResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStudentAppointments">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getStudentAppointmentsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getStudentAppointmentsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addStudentToWaitingList">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addStudentToWaitingListRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addStudentToWaitingListResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="searchAvailabilityForSpecificSubject">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="searchAvailabilityForSpecificSubjectRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="searchAvailabilityForSpecificSubjectResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAppointmentsForSubjectAndTeacher">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAppointmentsForSubjectAndTeacherRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getAppointmentsForSubjectAndTeacherResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="GustaveTutorServiceService">
+
+      <wsdl:port binding="impl:GustaveTutorServiceSoapBinding" name="GustaveTutorService">
+
+         <wsdlsoap:address location="http://localhost:8080/TutoringPlatform/services/GustaveTutorService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
